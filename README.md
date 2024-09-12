@@ -32,7 +32,7 @@ To get started, clone the repository and install the required dependencies:
 git clone https://github.com/DavidCutherell/tiger-pistol-superhero.git
 
 # Navigate into the project directory
-cd superhero-react-app
+cd tiger-pistol-superhero
 
 # Install dependencies
 npm install
