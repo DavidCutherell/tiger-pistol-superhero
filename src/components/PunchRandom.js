@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 const PunchRandom = ({ trigger }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [opacity, setOpacity] = useState(1);
   const [randomPosition, setRandomPosition] = useState({ top: '0px', left: '0px' });
 
   useEffect(() => {
@@ -14,32 +13,22 @@ const PunchRandom = ({ trigger }) => {
 
         // Show the image
         setIsVisible(true);
-        setOpacity(1);
 
-        const fadeTimeout = setTimeout(() => {
-            setOpacity(0);
-          }, 0);
-
-          const hideTimeout = setTimeout(() => {
+        const hideTimeout = setTimeout(() => {
             setIsVisible(false);
-          }, 1000); // 1 second
+        }, 500); // .5 second
 
-        return () => {
-            clearTimeout(fadeTimeout);
-            clearTimeout(hideTimeout);
-        }
+        return () => clearTimeout(hideTimeout);
     }
   }, [trigger]);
 
   return (
     <div
-        className={`fixed transition-opacity duration-1000`}
+        className={"fixed"}
         style={{
             top: randomPosition.top,
             left: randomPosition.left,
             zIndex: 1000,
-            opacity: opacity, // Dynamic opacity
-            transition: 'opacity 1s ease-in-out', // Smooth transition
         }}
     >
         {isVisible && (

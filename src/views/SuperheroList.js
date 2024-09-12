@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Labels, Messages, Headings } from '../constants/strings';
 
-const SuperheroListView = ({superheroes}) => {
+const SuperheroListView = ({superheroes, onHeroSelect}) => {
     //enable this if the data changes often and we want to load it fresh every time the tab is clicked
     /*
     //const [superheroes, setSuperheroes] = useState([]);
@@ -22,6 +22,7 @@ const SuperheroListView = ({superheroes}) => {
   
     const handleExpandClick = (heroId) => {
       setExpandedHeroId(expandedHeroId === heroId ? null : heroId);
+      onHeroSelect();
     };
   
     const filteredHeroes = superheroes.filter((hero) => {

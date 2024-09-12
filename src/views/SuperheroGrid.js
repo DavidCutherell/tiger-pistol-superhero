@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Labels, Messages, Headings, Actions } from '../constants/strings';
 
 
-const SuperheroGridView = ({ superheroes }) => {
+const SuperheroGridView = ({ superheroes, onHeroSelect }) => {
     //enable this if the data changes often and we want to load it fresh every time the tab is clicked
     /*
     //const [superheroes, setSuperheroes] = useState([]);
@@ -31,6 +31,7 @@ const SuperheroGridView = ({ superheroes }) => {
 
     const handleHeroClick = (hero) => {
         setOpenHero(hero);
+        onHeroSelect();
     };
 
     const closeModal = () => {

@@ -18,27 +18,32 @@ export default function SuperheroDataContainer() {
   const [triggerPopup, setTriggerPopup] = useState(false);
 
 
-  // Fetch superhero data once when the component mounts
-  useEffect(() => {
-    fetch('https://tppublic.blob.core.windows.net/test-data/super-heroes.json')
-      .then(response => response.json())
-      .then(data => setSuperheroes(data))
-      .catch(error => console.error('Error fetching superhero data:', error));
-  }, []);
+    // Fetch superhero data once when the component mounts
+    useEffect(() => {
+        fetch('https://tppublic.blob.core.windows.net/test-data/super-heroes.json')
+        .then(response => response.json())
+        .then(data => setSuperheroes(data))
+        .catch(error => console.error('Error fetching superhero data:', error));
+    }, []);
 
-  const handleTabClick = (tabName) => {
-    if (tabName === 'List View') {
-      setActiveTab('list');
-    } else if (tabName === 'Grid View') {
-      setActiveTab('grid');
-    }
+    const handleTabClick = (tabName) => {
+        if (tabName === 'List View') {
+        setActiveTab('list');
+        } else if (tabName === 'Grid View') {
+        setActiveTab('grid');
+        }
+    };
 
-    // Trigger the popup when clicking a tab
-    //setTriggerPopup(true);
-
-    // Reset the trigger after 1 second
-    //setTimeout(() => setTriggerPopup(false), 1000);
-  };
+    const handleHeroSelect = () => {
+        console.log("Hero selected, setting triggerPopup to true");
+        setTriggerPopup(true);
+    
+        // Reset the trigger after 1 second
+        setTimeout(() => {
+          console.log("Resetting triggerPopup to false");
+          setTriggerPopup(false);
+        }, 1000);
+    };
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -92,8 +97,8 @@ export default function SuperheroDataContainer() {
 
         {/* Content with border */}
         <div className="p-4 border border-gray-300 rounded-lg max-h-[calc(100vh-10rem)] overflow-y-auto">
-          {activeTab === 'list' && <SuperheroList superheroes={superheroes} />}
-          {activeTab === 'grid' && <SuperheroGrid superheroes={superheroes} />}
+            {activeTab === 'list' && <SuperheroList superheroes={superheroes} onHeroSelect={handleHeroSelect} />}
+            {activeTab === 'grid' && <SuperheroGrid superheroes={superheroes} onHeroSelect={handleHeroSelect} />}
         </div>
 
         <PunchRandom trigger={triggerPopup} />
