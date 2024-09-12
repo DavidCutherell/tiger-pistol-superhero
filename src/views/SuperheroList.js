@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Labels, Messages, Headings } from '../constants/strings';
 
 const SuperheroListView = ({superheroes}) => {
-    //enable this is the data changes often and you want to load it fresh every time the tab is clicked
+    //enable this if the data changes often and we want to load it fresh every time the tab is clicked
     /*
     //const [superheroes, setSuperheroes] = useState([]);
 
@@ -18,107 +19,117 @@ const SuperheroListView = ({superheroes}) => {
 
     const [expandedHeroId, setExpandedHeroId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-
-
+  
     const handleExpandClick = (heroId) => {
-        setExpandedHeroId(expandedHeroId === heroId ? null : heroId);
+      setExpandedHeroId(expandedHeroId === heroId ? null : heroId);
     };
-
+  
     const filteredHeroes = superheroes.filter((hero) => {
-        return hero.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-               hero.biography["full-name"].toLowerCase().includes(searchTerm.toLowerCase()) ||
-               hero.id.includes(searchTerm);
+      return (
+        hero.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        hero.biography["full-name"].toLowerCase().includes(searchTerm.toLowerCase()) || 
+        hero.id.includes(searchTerm)
+      );
     });
-
+  
     return (
-        <div className="p-5 min-h-screen flex flex-col">
-            <input
-                type="text"
-                placeholder="Search superheroes..."
-                className="mb-5 p-2 border border-gray-300 rounded w-full"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <ul className="space-y-3">
-                {filteredHeroes.length > 0 ? (
-                        filteredHeroes.map((hero) => (
-                        <li 
-                            key={hero.id} 
-                            className="bg-white p-4 rounded-lg shadow-md cursor-pointer"
-                            onClick={() => handleExpandClick(hero.id)}
-                        >
-                            {hero.id} | <strong>{hero.name}</strong>{' '}
-                            <span className="text-gray-600">(Real Name: {hero.biography["full-name"] || "Unknown"})</span>
-
-                            {/* Conditionally render extra information if the hero is expanded */}
-                            {expandedHeroId === hero.id && (
-                                    <div className="mt-3 bg-gray-100 p-3 rounded-lg">
-                                    {/* Top row with image, place of birth, alignment, etc. */}
-                                    <div className="flex mb-3">
-                                        <div className="mr-3">
-                                            <img
-                                                className="w-16 h-16 rounded-md"
-                                                src={hero.image.url}
-                                                alt={hero.name}
-                                            />
-                                        </div>
-                                        <div>
-                                            <p><strong>Place of Birth:</strong> {hero.biography["place-of-birth"] || "Unknown"}</p>
-                                            <p><strong>Alignment:</strong> {hero.biography.alignment || "Unknown"}</p>
-                                            <p><strong>First Appearance:</strong> {hero.biography["first-appearance"] || "Unknown"}</p>
-                                            <p><strong>Publisher:</strong> {hero.biography.publisher || "Unknown"}</p>
-                                        </div>
-                                    </div>
-
-                                    {/* 2nd row with 2 columns */}
-                                    <div className="grid grid-cols-2 gap-6">
-                                        {/* Left column: Appearance & Work */}
-                                        <div>
-                                            <p><strong>Appearance:</strong></p>
-                                            <ul className="list-disc list-inside">
-                                                <li><strong>Gender:</strong> {hero.appearance.gender || "Unknown"}</li>
-                                                <li><strong>Race:</strong> {hero.appearance.race !== "null" ? hero.appearance.race : "Not Available"}</li>
-                                                <li><strong>Height:</strong> {hero.appearance.height ? hero.appearance.height.join(', ') : "Not Available"}</li>
-                                                <li><strong>Weight:</strong> {hero.appearance.weight ? hero.appearance.weight.join(', ') : "Not Available"}</li>
-                                                <li><strong>Eye Color:</strong> {hero.appearance["eye-color"] || "Unknown"}</li>
-                                                <li><strong>Hair Color:</strong> {hero.appearance["hair-color"] || "Unknown"}</li>
-                                            </ul>
-
-                                            <p className="mt-3"><strong>Work:</strong></p>
-                                            <ul className="list-disc list-inside">
-                                                <li><strong>Occupation:</strong> {hero.work.occupation || "Unknown"}</li>
-                                                <li><strong>Base:</strong> {hero.work.base || "Unknown"}</li>
-                                            </ul>
-                                        </div>
-
-                                        {/* Right column: Power Stats & Connections */}
-                                        <div>
-                                            <p><strong>Power Stats:</strong></p>
-                                            <ul className="list-disc list-inside">
-                                                <li><strong>Intelligence:</strong> {hero.powerstats.intelligence !== "null" ? hero.powerstats.intelligence : "Not Available"}</li>
-                                                <li><strong>Strength:</strong> {hero.powerstats.strength !== "null" ? hero.powerstats.strength : "Not Available"}</li>
-                                                <li><strong>Speed:</strong> {hero.powerstats.speed !== "null" ? hero.powerstats.speed : "Not Available"}</li>
-                                                <li><strong>Durability:</strong> {hero.powerstats.durability !== "null" ? hero.powerstats.durability : "Not Available"}</li>
-                                                <li><strong>Power:</strong> {hero.powerstats.power !== "null" ? hero.powerstats.power : "Not Available"}</li>
-                                                <li><strong>Combat:</strong> {hero.powerstats.combat !== "null" ? hero.powerstats.combat : "Not Available"}</li>
-                                            </ul>
-
-                                            <p className="mt-3"><strong>Connections:</strong></p>
-                                            <ul className="list-disc list-inside">
-                                                <li><strong>Group Affiliation:</strong> {hero.connections["group-affiliation"] || "Unknown"}</li>
-                                                <li><strong>Relatives:</strong> {hero.connections.relatives || "Unknown"}</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </li>
-                    ))
-                ) : (
-                    <li className="text-gray-500">No superheroes found</li>
-                )}
-            </ul>
+      <div className="flex flex-col h-screen">
+        {/* Search Bar Row */}
+        <div className="flex-none bg-white z-10 shadow mb-5 border-b border-gray-300">
+          <input
+            type="text"
+            placeholder={Messages.SEARCH_PLACEHOLDER}
+            className="p-2 border border-gray-300 rounded w-full"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
+  
+        {/* Scrollable Content Row */}
+        <div className="flex-grow overflow-y-auto border-t">
+          <ul className="space-y-3 p-5">
+            {filteredHeroes.length > 0 ? (
+              filteredHeroes.map((hero) => (
+                <li
+                  key={hero.id}
+                  className="bg-white p-4 rounded-lg shadow-md cursor-pointer"
+                  onClick={() => handleExpandClick(hero.id)}
+                >
+                  {hero.id} | <strong>{hero.name}</strong>{' '}
+                  <span className="text-gray-600">
+                    ({Labels.REAL_NAME} {hero.biography['full-name'] || Messages.UKNOWN})
+                  </span>
+  
+                  {/* Conditionally render extra information if the hero is expanded */}
+                  {expandedHeroId === hero.id && (
+                    <div className="mt-3 bg-gray-100 p-3 rounded-lg">
+                      {/* Top row with image, place of birth, alignment, etc. */}
+                      <div className="flex mb-3">
+                        <div className="mr-3">
+                          <img
+                            className="w-16 h-16 rounded-md"
+                            src={hero.image.url}
+                            alt={hero.name}
+                          />
+                        </div>
+                        <div>
+                        <p><strong>{Labels.PLACE_OF_BIRTH}</strong> {hero.biography['place-of-birth'] || Messages.UKNOWN}</p>
+                        <p><strong>{Labels.ALIGNMENT}</strong> {hero.biography.alignment || Messages.UKNOWN}</p>
+                        <p><strong>{Labels.FIRST_APPEARANCE}</strong> {hero.biography['first-appearance'] || Messages.UKNOWN}</p>
+                        <p><strong>{Labels.PUBLISHER}</strong> {hero.biography.publisher || Messages.UKNOWN}</p>
+                        </div>
+                      </div>
+  
+                      {/* 2nd row with 2 columns */}
+                      <div className="grid grid-cols-2 gap-6">
+                        {/* Left column: Appearance & Work */}
+                        <div>
+                          <p><strong>{Headings.APPEARANCE}</strong></p>
+                          <ul className="list-disc list-inside">
+                            <li><strong>{Labels.GENDER}</strong> {hero.appearance.gender || Messages.UKNOWN}</li>
+                            <li><strong>{Labels.RACE}</strong> {hero.appearance.race !== 'null' ? hero.appearance.race : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.HEIGHT}</strong> {hero.appearance.height ? hero.appearance.height.join(', ') : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.WEIGHT}</strong> {hero.appearance.weight ? hero.appearance.weight.join(', ') : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.EYE_COLOR}</strong> {hero.appearance['eye-color'] || Messages.UKNOWN}</li>
+                            <li><strong>{Labels.HAIR_COLOR}</strong> {hero.appearance['hair-color'] || Messages.UKNOWN}</li>
+                          </ul>
+  
+                          <p className="mt-3"><strong>{Headings.WORK}</strong></p>
+                          <ul className="list-disc list-inside">
+                          <li><strong>{Labels.OCCUPATION}</strong> {hero.work.occupation || Messages.UKNOWN}</li>
+                          <li><strong>{Labels.BASE}</strong> {hero.work.base || Messages.UKNOWN}</li>
+                          </ul>
+                        </div>
+  
+                        {/* Right column: Power Stats & Connections */}
+                        <div>
+                          <p><strong>{Headings.POWER_STATS}</strong></p>
+                          <ul className="list-disc list-inside">
+                            <li><strong>{Labels.INTELLIGENCE}</strong> {hero.powerstats.intelligence !== 'null' ? hero.powerstats.intelligence : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.STRENGTH}</strong> {hero.powerstats.strength !== 'null' ? hero.powerstats.strength : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.SPEED}</strong> {hero.powerstats.speed !== 'null' ? hero.powerstats.speed : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.DURABILITY}</strong> {hero.powerstats.durability !== 'null' ? hero.powerstats.durability : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.POWER}</strong> {hero.powerstats.power !== 'null' ? hero.powerstats.power : Messages.INFO_NOT_AVAILABLE}</li>
+                            <li><strong>{Labels.COMBAT}</strong> {hero.powerstats.combat !== 'null' ? hero.powerstats.combat : Messages.INFO_NOT_AVAILABLE}</li>
+                          </ul>
+  
+                          <p className="mt-3"><strong>{Headings.CONNECTIONS}</strong></p>
+                          <ul className="list-disc list-inside">
+                            <li><strong>{Labels.GROUP_AFFILIATONS}</strong> {hero.connections['group-affiliation'] || Messages.UKNOWN}</li>
+                            <li><strong>{Labels.RELATIVES}</strong> {hero.connections.relatives || Messages.UKNOWN}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ))
+            ) : (
+              <li className="text-gray-500">{Messages.NO_HEROES_FOUND}</li>
+            )}
+          </ul>
+        </div>
+      </div>
     );
 };
 
