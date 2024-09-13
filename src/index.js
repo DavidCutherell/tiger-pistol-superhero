@@ -1,4 +1,4 @@
-import './css/styles.css';
+import './css/output.css';
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
