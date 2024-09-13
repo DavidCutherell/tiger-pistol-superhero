@@ -35,12 +35,10 @@ export default function SuperheroDataContainer() {
     };
 
     const handleHeroSelect = () => {
-        console.log("Hero selected, setting triggerPopup to true");
         setTriggerPopup(true);
     
         // Reset the trigger after 1 second
         setTimeout(() => {
-          console.log("Resetting triggerPopup to false");
           setTriggerPopup(false);
         }, 1000);
     };
