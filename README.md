@@ -61,12 +61,15 @@ npm run build
 │   └── index.html            # Main HTML file
 ├── src/                      # Source files
 │   ├── components/           # Reusable components (PunchRandom, etc.)
+│   ├── constants/            # Constants for string literals
 │   ├── css/                  # CSS files (styles.css)
 │   ├── views/                # Application views (SuperheroListView, SuperheroGridView)
+│       └── __tests__/        # Jest Tests for the views
 │   ├── index.js              # Entry point of the application
 │   └── App.js                # Main app component
 ├── .babelrc                  # Babel configuration
 ├── .gitignore                # Files and directories to be ignored by Git
+├── jest.config.js            # Jest tests configuration
 ├── package.json              # Project dependencies and scripts
 ├── postcss.config.js         # PostCSS configuration for TailwindCSS
 ├── tailwind.config.js        # TailwindCSS configuration
